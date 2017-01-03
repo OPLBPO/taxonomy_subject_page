@@ -1,0 +1,17 @@
+name = Taxonomy subject page
+core = 7.x
+package = OPL Custom
+version = 7.x-1.0
+dependencies[] = entity
+dependencies[] = page_manager
+dependencies[] = views
+dependencies[] = views_content
+features[ctools][] = page_manager:pages_default:1
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[page_manager_handlers][] = term_view__panel_context_8ac5e3d2-4ae1-4511-b8e1-9870d73d8931
+features[views_view][] = taxonomy_subject_page_databases
+features[views_view][] = taxonomy_subject_page_events
+features[views_view][] = taxonomy_subject_page_opl_page
+features[views_view][] = taxonomy_subject_pages_blogs
+features_exclude[dependencies][ctools] = ctools

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Taxonomy subject page feature.
+ */
+
+include_once 'taxonomy_subject_page.features.inc';
