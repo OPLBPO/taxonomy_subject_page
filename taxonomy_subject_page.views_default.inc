@@ -52,11 +52,17 @@ function taxonomy_subject_page_views_default_views() {
   $handler->display->display_options['arguments']['field_category_target_id']['id'] = 'field_category_target_id';
   $handler->display->display_options['arguments']['field_category_target_id']['table'] = 'field_data_field_category';
   $handler->display->display_options['arguments']['field_category_target_id']['field'] = 'field_category_target_id';
-  $handler->display->display_options['arguments']['field_category_target_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_category_target_id']['default_action'] = 'not found';
   $handler->display->display_options['arguments']['field_category_target_id']['default_argument_type'] = 'taxonomy_tid';
   $handler->display->display_options['arguments']['field_category_target_id']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['field_category_target_id']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['field_category_target_id']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_category_target_id']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['field_category_target_id']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['field_category_target_id']['validate_options']['vocabularies'] = array(
+    'subjects' => 'subjects',
+  );
+  $handler->display->display_options['arguments']['field_category_target_id']['validate_options']['type'] = 'convert';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -74,6 +80,16 @@ function taxonomy_subject_page_views_default_views() {
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  $handler->display->display_options['argument_input'] = array(
+    'field_category_target_id' => array(
+      'type' => 'panel',
+      'context' => 'entity:opl_booking.field_adult_attendance',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Category (field_category)',
+    ),
+  );
   $translatables['taxonomy_subject_page_databases'] = array(
     t('Master'),
     t('Online resources'),
@@ -104,6 +120,7 @@ function taxonomy_subject_page_views_default_views() {
   $handler->display->display_options['title'] = 'Events';
   $handler->display->display_options['css_class'] = 'masonry';
   $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['group_by'] = TRUE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -127,15 +144,21 @@ function taxonomy_subject_page_views_default_views() {
   $handler->display->display_options['sorts']['field_event_dates_value']['table'] = 'field_data_field_event_dates';
   $handler->display->display_options['sorts']['field_event_dates_value']['field'] = 'field_event_dates_value';
   $handler->display->display_options['sorts']['field_event_dates_value']['order'] = 'DESC';
-  /* Contextual filter: Content: Category (field_category) */
-  $handler->display->display_options['arguments']['field_category_target_id']['id'] = 'field_category_target_id';
-  $handler->display->display_options['arguments']['field_category_target_id']['table'] = 'field_data_field_category';
-  $handler->display->display_options['arguments']['field_category_target_id']['field'] = 'field_category_target_id';
-  $handler->display->display_options['arguments']['field_category_target_id']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['field_category_target_id']['default_argument_type'] = 'taxonomy_tid';
-  $handler->display->display_options['arguments']['field_category_target_id']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_category_target_id']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_category_target_id']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: Content: Has taxonomy term ID */
+  $handler->display->display_options['arguments']['tid']['id'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
+  $handler->display->display_options['arguments']['tid']['field'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
+    'subjects' => 'subjects',
+  );
+  $handler->display->display_options['arguments']['tid']['validate_options']['type'] = 'convert';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -159,6 +182,16 @@ function taxonomy_subject_page_views_default_views() {
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  $handler->display->display_options['argument_input'] = array(
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'entity:opl_booking.field_adult_attendance',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID',
+    ),
+  );
   $translatables['taxonomy_subject_page_events'] = array(
     t('Master'),
     t('Events'),
@@ -209,15 +242,23 @@ function taxonomy_subject_page_views_default_views() {
   $handler->display->display_options['sorts']['title_field_value']['id'] = 'title_field_value';
   $handler->display->display_options['sorts']['title_field_value']['table'] = 'field_data_title_field';
   $handler->display->display_options['sorts']['title_field_value']['field'] = 'title_field_value';
-  /* Contextual filter: Content: Category (field_category) */
-  $handler->display->display_options['arguments']['field_category_target_id']['id'] = 'field_category_target_id';
-  $handler->display->display_options['arguments']['field_category_target_id']['table'] = 'field_data_field_category';
-  $handler->display->display_options['arguments']['field_category_target_id']['field'] = 'field_category_target_id';
-  $handler->display->display_options['arguments']['field_category_target_id']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['field_category_target_id']['default_argument_type'] = 'taxonomy_tid';
-  $handler->display->display_options['arguments']['field_category_target_id']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_category_target_id']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_category_target_id']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: Content: Has taxonomy term ID */
+  $handler->display->display_options['arguments']['tid']['id'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
+  $handler->display->display_options['arguments']['tid']['field'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
+  $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '1';
+  $handler->display->display_options['arguments']['tid']['default_argument_options']['use_alias'] = TRUE;
+  $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
+    'subjects' => 'subjects',
+  );
+  $handler->display->display_options['arguments']['tid']['validate_options']['type'] = 'convert';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -236,13 +277,13 @@ function taxonomy_subject_page_views_default_views() {
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
   $handler->display->display_options['argument_input'] = array(
-    'field_category_target_id' => array(
-      'type' => 'none',
-      'context' => 'entity:opl_booking.resource-id',
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'entity:taxonomy_term.tid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Content: Category (field_category)',
+      'label' => 'Content: Has taxonomy term ID',
     ),
   );
   $translatables['taxonomy_subject_page_opl_page'] = array(
@@ -274,6 +315,7 @@ function taxonomy_subject_page_views_default_views() {
   $handler->display->display_options['title'] = 'Blogs';
   $handler->display->display_options['css_class'] = 'masonry';
   $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['group_by'] = TRUE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -302,15 +344,21 @@ function taxonomy_subject_page_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: Content: Category (field_category) */
-  $handler->display->display_options['arguments']['field_category_target_id']['id'] = 'field_category_target_id';
-  $handler->display->display_options['arguments']['field_category_target_id']['table'] = 'field_data_field_category';
-  $handler->display->display_options['arguments']['field_category_target_id']['field'] = 'field_category_target_id';
-  $handler->display->display_options['arguments']['field_category_target_id']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['field_category_target_id']['default_argument_type'] = 'taxonomy_tid';
-  $handler->display->display_options['arguments']['field_category_target_id']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_category_target_id']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_category_target_id']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: Content: Has taxonomy term ID */
+  $handler->display->display_options['arguments']['tid']['id'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
+  $handler->display->display_options['arguments']['tid']['field'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
+    'subjects' => 'subjects',
+  );
+  $handler->display->display_options['arguments']['tid']['validate_options']['type'] = 'convert';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -328,6 +376,16 @@ function taxonomy_subject_page_views_default_views() {
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  $handler->display->display_options['argument_input'] = array(
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'entity:opl_booking.field_adult_attendance',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID',
+    ),
+  );
   $translatables['taxonomy_subject_pages_blogs'] = array(
     t('Master'),
     t('Blogs'),

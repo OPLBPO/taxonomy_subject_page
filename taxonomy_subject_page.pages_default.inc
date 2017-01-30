@@ -5,17 +5,55 @@
  */
 
 /**
- * Implements hook_default_page_manager_handlers().
+ * Implements hook_default_page_manager_pages().
  */
-function taxonomy_subject_page_default_page_manager_handlers() {
-  $export = array();
-
+function taxonomy_subject_page_default_page_manager_pages() {
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'subject_vocabulary';
+  $page->task = 'page';
+  $page->admin_title = 'Subject vocabulary';
+  $page->admin_description = '';
+  $page->path = 'subjects/%term';
+  $page->access = array();
+  $page->menu = array(
+    'type' => 'none',
+    'title' => '',
+    'name' => 'navigation',
+    'weight' => '0',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'term' => array(
+      'id' => 1,
+      'identifier' => 'Taxonomy term: ID',
+      'name' => 'term',
+      'settings' => array(
+        'input_form' => 'term',
+        'vocabularies' => array(
+          'subjects' => 'subjects',
+        ),
+        'breadcrumb' => 1,
+        'transform' => 1,
+      ),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'term_view__panel_context_8ac5e3d2-4ae1-4511-b8e1-9870d73d8931';
-  $handler->task = 'term_view';
-  $handler->subtask = '';
+  $handler->name = 'page_subject_vocabulary__panel';
+  $handler->task = 'page';
+  $handler->subtask = 'subject_vocabulary';
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
@@ -23,26 +61,15 @@ function taxonomy_subject_page_default_page_manager_handlers() {
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
+    'body_classes_to_add' => 'no-main-content-container-bg',
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
-    'name' => '',
+    'name' => 'panel',
     'access' => array(
+      'plugins' => array(),
       'logic' => 'and',
-      'plugins' => array(
-        0 => array(
-          'name' => 'term_vocabulary',
-          'settings' => array(
-            'machine_name' => array(
-              'subjects' => 'subjects',
-            ),
-          ),
-          'context' => 'argument_term_1',
-          'not' => FALSE,
-        ),
-      ),
     ),
   );
   $display = new panels_display();
@@ -58,20 +85,24 @@ function taxonomy_subject_page_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
-  $display->uuid = 'f7377241-fa36-47ed-a66c-e66d4e3c457b';
+  $display->title = '%term:name_field';
+  $display->uuid = 'c9da41d5-ab8c-4002-9256-cbd75ab92d79';
   $display->storage_type = 'page_manager';
-  $display->storage_id = 'term_view__panel_context_8ac5e3d2-4ae1-4511-b8e1-9870d73d8931';
+  $display->storage_id = 'page_subject_vocabulary__panel';
   $display->content = array();
   $display->panels = array();
   $pane = new stdClass();
-  $pane->pid = 'new-508f403e-ef19-4614-8912-f8c4bae4dd7a';
+  $pane->pid = 'new-e9fafc87-fc74-48b2-b8ca-b3aaabe69d71';
   $pane->panel = 'left';
   $pane->type = 'views_panes';
   $pane->subtype = 'taxonomy_subject_page_opl_page-panel_pane_1';
   $pane->shown = TRUE;
   $pane->access = array();
-  $pane->configuration = array();
+  $pane->configuration = array(
+    'arguments' => array(
+      'tid' => 'Taxonomy term: ID',
+    ),
+  );
   $pane->cache = array();
   $pane->style = array(
     'settings' => NULL,
@@ -80,11 +111,11 @@ function taxonomy_subject_page_default_page_manager_handlers() {
   $pane->extras = array();
   $pane->position = 0;
   $pane->locks = array();
-  $pane->uuid = '508f403e-ef19-4614-8912-f8c4bae4dd7a';
-  $display->content['new-508f403e-ef19-4614-8912-f8c4bae4dd7a'] = $pane;
-  $display->panels['left'][0] = 'new-508f403e-ef19-4614-8912-f8c4bae4dd7a';
+  $pane->uuid = 'e9fafc87-fc74-48b2-b8ca-b3aaabe69d71';
+  $display->content['new-e9fafc87-fc74-48b2-b8ca-b3aaabe69d71'] = $pane;
+  $display->panels['left'][0] = 'new-e9fafc87-fc74-48b2-b8ca-b3aaabe69d71';
   $pane = new stdClass();
-  $pane->pid = 'new-e5bacd2c-c958-4657-967a-6e9e6ab548e5';
+  $pane->pid = 'new-d7451ac7-bfd1-4c3f-82a3-a3d8a5469981';
   $pane->panel = 'left';
   $pane->type = 'views_panes';
   $pane->subtype = 'taxonomy_subject_page_databases-panel_pane_1';
@@ -99,11 +130,11 @@ function taxonomy_subject_page_default_page_manager_handlers() {
   $pane->extras = array();
   $pane->position = 1;
   $pane->locks = array();
-  $pane->uuid = 'e5bacd2c-c958-4657-967a-6e9e6ab548e5';
-  $display->content['new-e5bacd2c-c958-4657-967a-6e9e6ab548e5'] = $pane;
-  $display->panels['left'][1] = 'new-e5bacd2c-c958-4657-967a-6e9e6ab548e5';
+  $pane->uuid = 'd7451ac7-bfd1-4c3f-82a3-a3d8a5469981';
+  $display->content['new-d7451ac7-bfd1-4c3f-82a3-a3d8a5469981'] = $pane;
+  $display->panels['left'][1] = 'new-d7451ac7-bfd1-4c3f-82a3-a3d8a5469981';
   $pane = new stdClass();
-  $pane->pid = 'new-1bcc351a-d3cc-460a-8008-19192e6fac72';
+  $pane->pid = 'new-0dd53587-5b6f-4712-923c-bca6b2380a08';
   $pane->panel = 'right';
   $pane->type = 'views_panes';
   $pane->subtype = 'taxonomy_subject_page_events-panel_pane_1';
@@ -118,11 +149,11 @@ function taxonomy_subject_page_default_page_manager_handlers() {
   $pane->extras = array();
   $pane->position = 0;
   $pane->locks = array();
-  $pane->uuid = '1bcc351a-d3cc-460a-8008-19192e6fac72';
-  $display->content['new-1bcc351a-d3cc-460a-8008-19192e6fac72'] = $pane;
-  $display->panels['right'][0] = 'new-1bcc351a-d3cc-460a-8008-19192e6fac72';
+  $pane->uuid = '0dd53587-5b6f-4712-923c-bca6b2380a08';
+  $display->content['new-0dd53587-5b6f-4712-923c-bca6b2380a08'] = $pane;
+  $display->panels['right'][0] = 'new-0dd53587-5b6f-4712-923c-bca6b2380a08';
   $pane = new stdClass();
-  $pane->pid = 'new-d716464a-6cce-4d32-93b9-058b2b6477bd';
+  $pane->pid = 'new-7bc855bf-b01e-4a73-b8ef-c29b9c94e644';
   $pane->panel = 'right';
   $pane->type = 'views_panes';
   $pane->subtype = 'taxonomy_subject_pages_blogs-panel_pane_1';
@@ -137,13 +168,15 @@ function taxonomy_subject_page_default_page_manager_handlers() {
   $pane->extras = array();
   $pane->position = 1;
   $pane->locks = array();
-  $pane->uuid = 'd716464a-6cce-4d32-93b9-058b2b6477bd';
-  $display->content['new-d716464a-6cce-4d32-93b9-058b2b6477bd'] = $pane;
-  $display->panels['right'][1] = 'new-d716464a-6cce-4d32-93b9-058b2b6477bd';
+  $pane->uuid = '7bc855bf-b01e-4a73-b8ef-c29b9c94e644';
+  $display->content['new-7bc855bf-b01e-4a73-b8ef-c29b9c94e644'] = $pane;
+  $display->panels['right'][1] = 'new-7bc855bf-b01e-4a73-b8ef-c29b9c94e644';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-1bcc351a-d3cc-460a-8008-19192e6fac72';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
-  $export['term_view__panel_context_8ac5e3d2-4ae1-4511-b8e1-9870d73d8931'] = $handler;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['subject_vocabulary'] = $page;
 
-  return $export;
+  return $pages;
+
 }
